@@ -1,0 +1,113 @@
+
+<ul class="nav nav-tabs" id="myTab" role="tablist">
+  <li class="nav-item">
+    <a class="nav-link active"
+       id="home-tab" data-toggle="tab" href="#home" role="tab" aria-controls="home" aria-expanded="true">Reference</a>
+  </li>
+  <li class="nav-item">
+    <a class="nav-link"
+       id="profile-tab" data-toggle="tab" href="#profile" role="tab" aria-controls="profile">Chapters</a>
+  </li>
+  <li class="nav-item dropdown">
+    <a class="nav-link dropdown-toggle" data-toggle="dropdown" href="#" role="button" aria-haspopup="true" aria-expanded="false">
+      Dropdown
+    </a>
+    <div class="dropdown-menu">
+      <a class="dropdown-item"
+         id="dropdown1-tab" href="#dropdown1" role="tab" data-toggle="tab" aria-controls="dropdown1">@fat</a>
+      <a class="dropdown-item"
+         id="dropdown2-tab" href="#dropdown2" role="tab" data-toggle="tab" aria-controls="dropdown2">@mdo</a>
+    </div>
+  </li>
+</ul>
+<br>
+<div class="tab-content" id="myTabContent">
+  <!-- First Tab -->
+  <div class="tab-pane fade show active"
+       id="home"
+       role="tabpanel"
+       aria-labelledby="home-tab">
+             <div class="jumbotron">
+              <h1 class="display-3">{{ currentReference.name }}</h1>
+              <p class="lead">{{ currentReference.description }}</p>
+                    <span class="badge badge-primary">DBS´s</span>
+                    <span class="badge badge-secondary">Data Bases</span>
+                    <span class="badge badge-success">Persistance</span>
+                    <span class="badge badge-danger">Java</span>
+                    <span class="badge badge-warning">Warning</span>
+                    <span class="badge badge-info">Info</span>
+                    <span class="badge badge-light">Light</span>
+                    <span class="badge badge-dark">Dark</span>
+              <hr class="my-4">
+              <p class="lead">
+                <!--Button trigger modal-->
+                <button type="submit" class="btn btn-primary btn-lg" (click)="onUpdateReference()" data-toggle="modal" data-target="#exampleModal">
+                  Update Reference
+                </button>
+              </p>
+            </div>
+    </div>
+    <!-- Second Tab -->
+    <div class="tab-pane fade"
+       id="profile"
+       role="tabpanel"
+       aria-labelledby="profile-tab">
+
+        <div class="row" *ngFor="let group of allChaptersGrouped; let i = index">
+          <div class="col-md-4" *ngFor="let chapter of allChaptersGrouped[i]">
+              <div>
+                <div class="card" style="width: 20rem;">
+                  <div class="card-body">
+                    <h4 class="card-title">{{chapter.title}}</h4>
+                    <h6 class="card-subtitle mb-2 text-muted">Card subtitle</h6>
+                    <p class="card-text">Some quick example text to build on the card title and make up the bulk of the card's content.</p>
+                    <a href="#" class="card-link">Card link</a>
+                    <a href="#" class="card-link">Another link</a>
+                  </div>
+                </div>
+              </div>
+          </div>
+        </div>
+    </div>
+    <!-- Dropdown -->
+    <div class="tab-pane fade"
+       id="dropdown1"
+       role="tabpanel"
+       aria-labelledby="dropdown1-tab">Dropdown 1 ...
+    </div>
+    <div class="tab-pane fade"
+       id="dropdown2"
+       role="tabpanel"
+       aria-labelledby="dropdown2-tab">Dropdown 2 ...
+    </div>
+</div>
+
+<!-- Modal -->
+<div class="modal fade" id="exampleModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+  <div class="modal-dialog modal-lg" role="document">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title" id="exampleModalLabel">Update Reference</h5>
+        <button type="button" class="close" data-dismiss="modal" #fileInput aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body">
+        <form (submit)="onUpdateReferenceModal()">
+          <div class="form-group">
+            <label for="recipient-name" class="form-control-label">Reference Name:</label>
+            <input type="text"
+                   class="form-control"
+                   [(ngModel)]="updateReferenceName" name="updateReferenceName">
+          </div>
+          <div class="form-group">
+            <label for="message-text" class="form-control-label">Reference Description:</label>
+            <textarea class="form-control"
+                      [(ngModel)]="updateReferenceDescription" name="updateReferenceDescription"></textarea>
+          </div>
+          <button type="submit" (click)="onEdit()" class="btn btn-primary">Update</button>
+        </form>
+      </div>
+    </div>
+  </div>
+</div>

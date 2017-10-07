@@ -1,0 +1,31 @@
+<h2>Dashboard</h2>
+<hr>
+<div>
+    <ul class="nav nav-pills">
+      <li  class="nav-item" *ngFor="let reference of allReferences"                                                             (click)="selectReference(reference)">
+        <a [class.active]="reference === currentReference" class="nav-link" >{{reference.name}}</a>
+      </li>
+    </ul>
+
+    <div *ngIf="currentReference">
+        <hr>
+        <!--<nav>
+            <ul class="nav nav-tabs">
+                <li class="nav-item" routerLinkActive="active">
+                    <a class="nav-link"  [routerLink]="['reference']">Reference</a>
+                </li>
+                <li class="nav-item" routerLinkActive="active">
+                    <a  class="nav-link" [routerLink]="['chapter']">Chapter</a>
+                </li>
+            </ul>
+        </nav>
+
+        <div>
+            <router-outlet></router-outlet>
+        </div>-->
+
+        <div>
+            <app-tabs [(currentReference)]="currentReference" (editClicked)="reloadInfo($event)" ></app-tabs>
+        </div>
+    </div>
+</div>
