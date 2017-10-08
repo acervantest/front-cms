@@ -27,6 +27,10 @@ export class DashboardComponent implements OnInit {
     reloadInfo(message){
       this.allReferences = [];
       console.log('reloading info ... '+message);
+      if(message === 'reference removed!'){
+        console.log('setting current reference to null');  
+        this.currentReference = null;
+      }
       setTimeout(() => this.loadReferences(), 100);
 
     }
@@ -56,7 +60,7 @@ export class DashboardComponent implements OnInit {
     onCreateNewReference(){
       let newReference = new Reference(this.newReferenceName,
                                        this.newReferenceDescription);
-                                       
+
       this._referenceService.addReference(newReference)
           .subscribe(data => {
             if(data.success){

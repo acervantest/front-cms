@@ -33,4 +33,10 @@ export class ReferenceService {
             .catch( err => Observable.throw(err.json()));
     }
 
+    dropReference(reference){
+      return this._http.delete('/reference/drop/'+reference.id)
+            .map(res => res.json())
+            .catch( err => Observable.throw(err.json()));
+    }
+
 }

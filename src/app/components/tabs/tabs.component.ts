@@ -11,7 +11,7 @@ import { ReferenceService } from '../../services/reference.service';
 export class TabsComponent implements OnInit, OnChanges {
 
     @Input() currentReference: Reference;
-    @Output() editClicked = new EventEmitter<String>();
+    @Output() functionEmitter = new EventEmitter<String>();
     @ViewChild('updateInput') updateInput;
 
     allChapters: Chapter [] = [];
@@ -33,7 +33,7 @@ export class TabsComponent implements OnInit, OnChanges {
     }
 
     onEdit(){
-        this.editClicked.emit('reference edited!');
+        this.functionEmitter.emit('reference edited!');
     }
 
     clearCache(){
@@ -68,8 +68,17 @@ export class TabsComponent implements OnInit, OnChanges {
        });
 
        this.currentReference = referenceModified;
-
        this.updateInput.nativeElement.click();
+    }
+
+    onDropReference(){
+      console.log('name: '+this.currentReference.name);
+      console.log('id: '+this.currentReference.id);
+      this._referenceService.dropReference(this.currentReference)
+        .subscribe(data => {
+          console.log(data);
+        });
+      this.functionEmitter.emit('reference removed!');
     }
 
 }
