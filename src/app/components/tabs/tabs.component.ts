@@ -12,7 +12,7 @@ export class TabsComponent implements OnInit, OnChanges {
 
     @Input() currentReference: Reference;
     @Output() editClicked = new EventEmitter<String>();
-    @ViewChild('fileInput') fileInput;
+    @ViewChild('updateInput') updateInput;
 
     allChapters: Chapter [] = [];
     allChaptersGrouped: any [] = [];
@@ -33,7 +33,7 @@ export class TabsComponent implements OnInit, OnChanges {
     }
 
     onEdit(){
-        this.editClicked.emit('A new value');
+        this.editClicked.emit('reference edited!');
     }
 
     clearCache(){
@@ -62,14 +62,14 @@ export class TabsComponent implements OnInit, OnChanges {
       let referenceModified = new Reference(this.updateReferenceName,
                                             this.updateReferenceDescription,
                                             this.updateReferenceId);
-
        this._referenceService.updateReference(referenceModified)
         .subscribe(data => {
             console.log(data);
        });
 
        this.currentReference = referenceModified;
-       this.fileInput.nativeElement.click();
+
+       this.updateInput.nativeElement.click();
     }
 
 }

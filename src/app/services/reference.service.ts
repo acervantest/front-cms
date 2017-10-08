@@ -4,6 +4,7 @@ import { Observable } from 'rxjs/Observable';
 import { Reference } from '../models/reference.model';
 
 import 'rxjs/add/operator/map';
+import 'rxjs/Rx';
 
 @Injectable()
 export class ReferenceService {
@@ -15,7 +16,7 @@ export class ReferenceService {
     getAllReferences(){
       return this._http.get('/reference/allReferences')
                  .map((res) => {
-                      return res.json()['references'];
+                      return res.json()['obj'];
                     })
     }
 
@@ -24,4 +25,12 @@ export class ReferenceService {
       return this._http.post('/reference/modify', reference, { headers: this.headers })
           .map(res => res.json());
     }
+
+    addReference(reference){
+      let headers = new Headers();
+      return this._http.post('/reference/register', reference, { headers: this.headers })
+            .map(res => res.json())
+            .catch( err => Observable.throw(err.json()));
+    }
+
 }

@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, ViewChild } from '@angular/core';
 import { ReferenceService } from '../../services/reference.service';
 import { Reference } from '../../models/reference.model';
 
@@ -9,23 +9,26 @@ import { Reference } from '../../models/reference.model';
 })
 export class DashboardComponent implements OnInit {
 
+    @ViewChild('createInput') createInput;
     currentReference: Reference;
     allReferences: Reference[];
+    newReferenceName: String;
+    newReferenceDescription: String;
 
     constructor(
         private _referenceService: ReferenceService
     ) { }
 
     ngOnInit() {
-      console.log(this.currentReference);
         this.allReferences = [];
         this.loadReferences();
     }
 
-    reloadInfo(){
-      console.log("some edition done!!!");
+    reloadInfo(message){
       this.allReferences = [];
-      setTimeout(() => this.loadReferences(), 100)
+      console.log('reloading info ... '+message);
+      setTimeout(() => this.loadReferences(), 100);
+
     }
 
     loadReferences(): void{
@@ -48,6 +51,22 @@ export class DashboardComponent implements OnInit {
 
     selectReference(reference){
         this.currentReference = reference;
+    }
+
+    onCreateNewReference(){
+      let newReference = new Reference(this.newReferenceName,
+                                       this.newReferenceDescription);
+                                       
+      this._referenceService.addReference(newReference)
+          .subscribe(data => {
+            if(data.success){
+              console.log(data);
+            } else {
+                console.log('error');
+            }
+          });
+      this.reloadInfo('reference created!');
+      this.createInput.nativeElement.click();
     }
 
 }
