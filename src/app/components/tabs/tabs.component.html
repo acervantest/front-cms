@@ -2,13 +2,13 @@
 <ul class="nav nav-tabs" id="myTab" role="tablist">
   <li class="nav-item">
     <a class="nav-link active"
-       id="home-tab" data-toggle="tab" href="#home" role="tab" aria-controls="home" aria-expanded="true">Reference</a>
+       id="reference-tab" data-toggle="tab" href="#references" role="tab" aria-controls="home" aria-expanded="true">Reference</a>
   </li>
   <li class="nav-item">
     <a class="nav-link"
-       id="profile-tab" data-toggle="tab" href="#profile" role="tab" aria-controls="profile">Chapters</a>
+       id="chapters-tab" data-toggle="tab" href="#chapters" role="tab" aria-controls="profile">Chapters</a>
   </li>
-  <li class="nav-item dropdown">
+  <!--<li class="nav-item dropdown">
     <a class="nav-link dropdown-toggle" data-toggle="dropdown" href="#" role="button" aria-haspopup="true" aria-expanded="false">
       Dropdown
     </a>
@@ -18,44 +18,34 @@
       <a class="dropdown-item"
          id="dropdown2-tab" href="#dropdown2" role="tab" data-toggle="tab" aria-controls="dropdown2">@mdo</a>
     </div>
-  </li>
+  </li>-->
 </ul>
 <br>
 <div class="tab-content" id="myTabContent">
-  <!-- First Tab -->
-  <div class="tab-pane fade show active"
-       id="home"
-       role="tabpanel"
-       aria-labelledby="home-tab">
+  <!-- REFERENCE TAB -->
+  <div class="tab-pane fade show active" id="references" role="tabpanel" aria-labelledby="reference-tab">
              <div class="jumbotron">
               <h1 class="display-3">{{ currentReference.name }}</h1>
               <p class="lead">{{ currentReference.description }}</p>
-                    <span class="badge badge-primary">DBS´s</span>
-                    <span class="badge badge-secondary">Data Bases</span>
-                    <span class="badge badge-success">Persistance</span>
-                    <span class="badge badge-danger">Java</span>
-                    <span class="badge badge-warning">Warning</span>
-                    <span class="badge badge-info">Info</span>
-                    <span class="badge badge-light">Light</span>
-                    <span class="badge badge-dark">Dark</span>
               <hr class="my-4">
               <p class="lead">
-                <!--Button trigger modal-->
+                <!--Button update reference modal-->
                 <button type="submit" class="btn btn-primary btn-lg" (click)="onUpdateReference()" data-toggle="modal" data-target="#updateReference">
                   Update
                 </button>
+                <!-- Button drop reference -->
                 <button type="submit" class="btn btn-danger btn-lg" (click)="onDropReference()" data-toggle="modal" data-target="">
                   Drop
                 </button>
               </p>
             </div>
     </div>
-    <!-- Second Tab -->
-    <div class="tab-pane fade"
-       id="profile"
-       role="tabpanel"
-       aria-labelledby="profile-tab">
-
+    <!-- CHAPTERS TAB -->
+    <div class="tab-pane fade" id="chapters" role="tabpanel" aria-labelledby="chapters-tab">
+        <!--Button trigger create chapter modal--><p>
+        <button type="submit" class="btn btn-light" data-toggle="modal" data-target="#createChapter">
+          New Chapter
+        </button>
         <div class="row" *ngFor="let group of allChaptersGrouped; let i = index">
           <div class="col-md-4" *ngFor="let chapter of allChaptersGrouped[i]">
               <div>
@@ -63,9 +53,11 @@
                   <div class="card-body">
                     <h4 class="card-title">{{chapter.title}}</h4>
                     <h6 class="card-subtitle mb-2 text-muted">Card subtitle</h6>
-                    <p class="card-text">Some quick example text to build on the card title and make up the bulk of the card's content.</p>
-                    <a href="#" class="card-link">Card link</a>
-                    <a href="#" class="card-link">Another link</a>
+                    <p class="card-text">{{chapter.introduction}}</p>
+                    <button type="button" class="card-link btn btn-link" (click)="onUpdateChapter(chapter)"
+                            data-toggle="modal" data-target="#updateChapter">Update</button>
+                    <button type="button" class="card-link btn btn-link" (click)="onDropChapter(chapter)">Drop</button>
+                    <a href="" class="card-link"></a>
                   </div>
                 </div>
               </div>
@@ -73,7 +65,7 @@
         </div>
     </div>
     <!-- Dropdown -->
-    <div class="tab-pane fade"
+    <!--<div class="tab-pane fade"
        id="dropdown1"
        role="tabpanel"
        aria-labelledby="dropdown1-tab">Dropdown 1 ...
@@ -82,15 +74,15 @@
        id="dropdown2"
        role="tabpanel"
        aria-labelledby="dropdown2-tab">Dropdown 2 ...
-    </div>
+    </div>-->
 </div>
 
-<!-- Modal -->
-<div class="modal fade" id="updateReference" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+<!-- REFERENCE MODAL-->
+<div class="modal fade" id="updateReference" tabindex="-1" role="dialog" aria-labelledby="referenceModalLabel" aria-hidden="true">
   <div class="modal-dialog modal-lg" role="document">
     <div class="modal-content">
       <div class="modal-header">
-        <h5 class="modal-title" id="exampleModalLabel">Update Reference</h5>
+        <h5 class="modal-title" id="referenceModalLabel">Update Reference</h5>
         <button type="button" class="close" data-dismiss="modal" #updateInput aria-label="Close">
           <span aria-hidden="true">&times;</span>
         </button>
@@ -109,6 +101,64 @@
                       [(ngModel)]="updateReferenceDescription" name="updateReferenceDescription"></textarea>
           </div>
           <button type="submit" (click)="onEdit()" class="btn btn-primary">Update</button>
+        </form>
+      </div>
+    </div>
+  </div>
+</div>
+<!-- CHAPTER CREATE MODAL -->
+<div class="modal fade" id="createChapter" tabindex="-1" role="dialog" aria-labelledby="chapterModalLabel" aria-hidden="true">
+  <div class="modal-dialog modal-lg" role="document">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title" id="chapterModalLabel">New Chapter</h5>
+        <button type="button" class="close" data-dismiss="modal" #createChapterInput aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body">
+        <form (submit)="onCreateChapterModal()">
+          <div class="form-group">
+            <label for="recipient-name" class="form-control-label">Chapter Title:</label>
+            <input type="text"
+                   class="form-control"
+                   [(ngModel)]="newChapterTitle" name="newChapterTitle">
+          </div>
+          <div class="form-group">
+            <label for="message-text" class="form-control-label">Chapter Introduction:</label>
+            <textarea class="form-control"
+                      [(ngModel)]="newChapterIntroduction" name="newChapterIntroduction"></textarea>
+          </div>
+          <button type="submit" (click)="onCreateChapter()" class="btn btn-primary">Create</button>
+        </form>
+      </div>
+    </div>
+  </div>
+</div>
+<!-- CHAPTER UPDATE MODAL -->
+<div class="modal fade" id="updateChapter" tabindex="-1" role="dialog" aria-labelledby="chapterUpdateModalLabel" aria-hidden="true">
+  <div class="modal-dialog modal-lg" role="document">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title" id="chapterUpdateModalLabel">Update Chapter</h5>
+        <button type="button" class="close" data-dismiss="modal" #updateChapterInput aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body">
+        <form (submit)="onUpdateChapterModal()">
+          <div class="form-group">
+            <label for="recipient-name" class="form-control-label">Chapter Title:</label>
+            <input type="text"
+                   class="form-control"
+                   [(ngModel)]="updateChapterTitle" name="updateChapterTitle">
+          </div>
+          <div class="form-group">
+            <label for="message-text" class="form-control-label">Chapter Introduction:</label>
+            <textarea class="form-control"
+                      [(ngModel)]="updateChapterIntroduction" name="updateChapterIntroduction"></textarea>
+          </div>
+          <button type="submit" class="btn btn-primary">Update</button>
         </form>
       </div>
     </div>

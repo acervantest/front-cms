@@ -1,15 +1,19 @@
 <h2>Dashboard</h2>
 <hr>
 <div>
+  <p>
+    <button type="submit" class="btn btn-light" data-toggle="modal" data-target="#createReference">
+      New Reference
+    </button>
     <ul class="nav nav-pills">
       <li  class="nav-item" *ngFor="let reference of allReferences" (click)="selectReference(reference)">
         <a [class.active]="reference === currentReference" class="nav-link" >{{reference.name}}</a>
       </li>
       <li class="nav-item">
-        <!--Button trigger modal-->
+        <!--Button trigger modal
         <a class="nav-link" data-toggle="modal" data-target="#createReference">
           NEW REFERENCE
-        </a>
+        </a>-->
       </li>
     </ul>
 

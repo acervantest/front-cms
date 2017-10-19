@@ -15,10 +15,12 @@ import { RegisterComponent } from './components/register/register.component';
 import { AuthService } from './services/auth.service';
 import { ValidateService } from './services/validate.service';
 import { ReferenceService } from './services/reference.service';
+import { ChapterService } from './services/chapter.service';
 import { FlashMessagesModule } from 'angular2-flash-messages';
 
 import { routing } from './app.routing';
 import { TabsComponent } from './components/tabs/tabs.component';
+import { SectionComponent } from './components/section/section.component';
 
 
 @NgModule({
@@ -30,7 +32,8 @@ import { TabsComponent } from './components/tabs/tabs.component';
     HomeComponent,
     ProfileComponent,
     RegisterComponent,
-    TabsComponent
+    TabsComponent,
+    SectionComponent
   ],
   imports: [
     BrowserModule,
@@ -40,7 +43,7 @@ import { TabsComponent } from './components/tabs/tabs.component';
     routing,
     ReactiveFormsModule
   ],
-  providers: [ AuthService, ReferenceService, ValidateService , AuthGuard],
+  providers: [ AuthService, ReferenceService, ValidateService, ChapterService, AuthGuard],
   bootstrap: [AppComponent]
 })
 export class AppModule { }

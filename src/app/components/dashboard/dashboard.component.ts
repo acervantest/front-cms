@@ -1,6 +1,7 @@
 import { Component, OnInit, ViewChild } from '@angular/core';
 import { ReferenceService } from '../../services/reference.service';
 import { Reference } from '../../models/reference.model';
+import { Chapter } from '../../models/chapter.model';
 
 @Component({
   selector: 'app-dashboard',
@@ -10,6 +11,7 @@ import { Reference } from '../../models/reference.model';
 export class DashboardComponent implements OnInit {
 
     @ViewChild('createInput') createInput;
+
     currentReference: Reference;
     allReferences: Reference[];
     newReferenceName: String;
@@ -28,28 +30,41 @@ export class DashboardComponent implements OnInit {
       this.allReferences = [];
       console.log('reloading info ... '+message);
       if(message === 'reference removed!'){
-        console.log('setting current reference to null');  
+        console.log('setting current reference to null');
         this.currentReference = null;
       }
       setTimeout(() => this.loadReferences(), 100);
-
     }
 
     loadReferences(): void{
+      console.log('loadReferences()');
         this._referenceService.getAllReferences()
             .subscribe( (references: any[]) => {
-              for(let i = 0; i < references.length; i = i + 1 ){
-                console.log(references[i].name);
-                let newRef = {
-                  id: references[i]._id,
-                  name: references[i].name,
-                  description: references[i].description,
-                  chapters: references[i].chapters
-                }
-                this.allReferences.push(new Reference(newRef.name, newRef.description, newRef.id, newRef.chapters));
-              }
 
-            this.allReferences;
+              for(let i = 0; i < references.length; i = i + 1 ){
+                var chapterList: any[] = [];
+                  /*if(references[i].chapters.length > 0){
+                      for(let j = 0; j < references[i].chapters.length; j = j + 1){
+                            var currentChapter = {
+                              id: references[i].chapters[j]._id,
+                              title: references[i].chapters[j].title,
+                              introduction: references[i].chapters[j].introduction
+                            }
+                           chapterList.push(currentChapter);
+                      }
+                    }*/
+
+                      var newRef = {
+                          id: references[i]._id,
+                          name: references[i].name,
+                          description: references[i].description,
+                          chapters: chapterList
+                      }
+
+                this.allReferences.push(new Reference(newRef.name, newRef.description, newRef.id, chapterList));
+                //chapterList = null;
+              }
+            //this.allReferences;
         });
     }
 

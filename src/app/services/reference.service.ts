@@ -23,7 +23,8 @@ export class ReferenceService {
     updateReference(reference){
       let headers = new Headers();
       return this._http.post('/reference/modify', reference, { headers: this.headers })
-          .map(res => res.json());
+          .map(res => res.json())
+          .catch( err => Observable.throw(err.json()));
     }
 
     addReference(reference){

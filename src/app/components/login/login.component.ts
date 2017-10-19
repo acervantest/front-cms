@@ -7,15 +7,14 @@ import { FormGroup, FormControl, Validators } from '@angular/forms';
 @Component({
   selector: 'app-login',
   templateUrl: './login.component.html',
-  styleUrls: ['./login.component.css'],
-  providers: [AuthService]
+  styleUrls: ['./login.component.css']
 })
 export class LoginComponent implements OnInit {
 
     myForm: FormGroup;
 
-    //username: String;
-    //password: String;
+    username: String;
+    password: String;
 
     constructor(
         private _authService: AuthService,
@@ -38,7 +37,7 @@ export class LoginComponent implements OnInit {
         };
 
         this._authService.authenticateUser(user).subscribe( data => {
-            console.log("data.success: "+data.success);
+            console.log("data.success: "+data);
             if(data.success){
                 this._authService.storeUserData(data.token, data.user);
                 this._flashMessage.show('You are now logged in', {

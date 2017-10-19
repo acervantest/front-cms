@@ -1,8 +1,10 @@
 import { Injectable } from '@angular/core';
 import { Http, Headers, Response } from '@angular/http';
 import { Observable } from 'rxjs/Observable';
-import 'rxjs/add/operator/map';
 import { tokenNotExpired } from 'angular2-jwt';
+
+import 'rxjs/add/operator/map';
+import 'rxjs/Rx';
 
 @Injectable()
 export class AuthService {
@@ -17,13 +19,15 @@ export class AuthService {
     registerUser(user){
         let headers = new Headers();
         return this._http.post('/user/register', user, { headers: this.headers })
-            .map(res => res.json());
+            .map(res => res.json())
+            .catch( err => Observable.throw(err.json()));
     }
 
     authenticateUser(user){
         let headers = new Headers();
         return this._http.post('/user/authenticate', user, { headers: this.headers })
-            .map(res => res.json());
+            .map(res => res.json())
+            .catch( err => Observable.throw(err.json()));
     }
 
     getProfile(){
